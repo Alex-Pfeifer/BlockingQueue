@@ -11,7 +11,7 @@ public class BlkQueueImpl<T> implements BlkQueue<T> {
     }
 
     @Override
-    public void push(T message) {
+    public synchronized void push(T message) {
         while (queue.size() >= maxSize) {
             try {
                 wait();
@@ -24,8 +24,8 @@ public class BlkQueueImpl<T> implements BlkQueue<T> {
     }
 
     @Override
-    public T pop() {
-        while (queue.size() < maxSize) {
+    public synchronized T pop() {
+        while (queue.isEmpty()) {
             try {
                 wait();
             } catch (InterruptedException e) {
