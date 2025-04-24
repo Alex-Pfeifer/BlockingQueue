@@ -28,7 +28,7 @@ public class BlkQueueImpl<T> implements BlkQueue<T> {
                 }
             }
             queue.add(message);
-            senderQueue.signal();
+            reseiverQueue.signal();
         } finally {
             mutex.unlock();
         }
@@ -48,7 +48,7 @@ public class BlkQueueImpl<T> implements BlkQueue<T> {
                 }
             }
             T result = queue.removeFirst();
-            reseiverQueue.signalAll();
+            senderQueue.signal();
             return result;
         } finally {
             mutex.unlock();
